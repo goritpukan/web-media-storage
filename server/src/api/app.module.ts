@@ -3,10 +3,11 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
+import { UserModule } from './user/user.module';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
   imports: [
-    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`.${process.env.NODE_ENV}.env`, '.env'],
@@ -14,9 +15,9 @@ import { classes } from '@automapper/classes';
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
+    AuthModule,
+    UserModule,
+    DatabaseModule,
   ],
-  controllers: [],
-  providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}
