@@ -1,37 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, RefreshToken } from '@prisma/client';
 
 @Injectable()
 export class RefreshTokenRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  findById(id: string) {
-    return this.prisma.refreshToken.findUnique({
-      where: {
-        id,
-      },
+  async findMany(
+    where?: Prisma.RefreshTokenWhereInput,
+  ): Promise<RefreshToken[]> {
+    return this.prisma.refreshToken.findMany({
+      where,
     });
   }
 
-  find(where: Prisma.RefreshTokenWhereInput) {
+  async findById(id: string): Promise<RefreshToken> {
+    return this.prisma.refreshToken.findUnique({
+      where: { id },
+    });
+  }
+
+  async find(where?: Prisma.RefreshTokenWhereInput): Promise<RefreshToken> {
     return this.prisma.refreshToken.findFirst({
       where,
     });
   }
 
-  findMany(args?: Prisma.RefreshTokenFindManyArgs) {
-    return this.prisma.refreshToken.findMany(args);
+  async create(data: RefreshToken): Promise<RefreshToken> {
+    return this.prisma.refreshToken.create({
+      data,
+    });
   }
 
-  create(data: Prisma.RefreshTokenCreateInput) {
-    return this.prisma.refreshToken.create({ data });
-  }
-
-  updateById(id: string, data: Prisma.RefreshTokenUpdateInput) {
+  async updateById(
+    id: string,
+    data: Prisma.UserUpdateInput,
+  ): Promise<RefreshToken> {
     return this.prisma.refreshToken.update({
       where: { id },
       data,
     });
+  }
+
+  async deleteById(id: string): Promise<RefreshToken> {
+    return this.prisma.refreshToken.delete({
+      where: { id },
+    });
+  }
+
+  async deleteMany(where: Prisma.RefreshTokenWhereInput) {
+    return this.prisma.refreshToken.deleteMany({ where });
   }
 }
