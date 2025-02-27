@@ -7,22 +7,18 @@ import { CreateUserDto } from '../../api/user/dto/create-user.dto';
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findMany(where?: Prisma.UserWhereInput): Promise<User[]> {
-    return this.prisma.user.findMany({
-      where,
-    });
+  async findMany(args?: Prisma.UserFindManyArgs): Promise<User[]> {
+    return this.prisma.user.findMany(args);
   }
 
   async findById(id: string): Promise<User> {
     return this.prisma.user.findUnique({
-      where: { id },
+      where: {id},
     });
   }
 
-  async find(where?: Prisma.UserWhereInput): Promise<User> {
-    return this.prisma.user.findFirst({
-      where,
-    });
+  async find(args?: Prisma.UserFindFirstArgs): Promise<User> {
+    return this.prisma.user.findFirst(args);
   }
 
   async create(data: CreateUserDto): Promise<User> {
@@ -33,18 +29,18 @@ export class UserRepository {
 
   async updateById(id: string, data: Prisma.UserUpdateInput): Promise<User> {
     return this.prisma.user.update({
-      where: { id },
+      where: {id},
       data,
     });
   }
 
   async deleteById(id: string): Promise<User> {
     return this.prisma.user.delete({
-      where: { id },
+      where: {id},
     });
   }
 
-  async deleteMany(where: Prisma.UserWhereInput) {
-    return this.prisma.user.deleteMany({ where });
+  async deleteMany(args?: Prisma.UserDeleteManyArgs){
+    return this.prisma.user.deleteMany(args);
   }
 }

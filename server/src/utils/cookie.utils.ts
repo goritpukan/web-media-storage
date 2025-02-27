@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { CookieOptions, Request, Response } from 'express';
 
 export class CookieUtils {
   static getRequestJwt(token: 'access' | 'refresh') {
@@ -8,5 +8,44 @@ export class CookieUtils {
         return cookies?.[`${token}_token`];
       },
     ];
+  }
+
+  static setResponseCookie(
+    res: Response,
+    tokenName: 'access' | 'refresh',
+    token: string,
+    options?: CookieOptions,
+  ) {
+    res.cookie(`${tokenName}_token`, token, {
+      httpOnly: true,
+      secure: true,
+      ...options,
+    });
+  }
+
+  static setResponseJwt(
+    res: Response,
+    {
+      accessToken,
+      refreshToken,
+    }: {
+      accessToken: string;
+      refreshToken: string;
+    },
+    {
+      accessTokenExpires,
+      refreshTokenExpires,
+    }: {
+      accessTokenExpires: number;
+      refreshTokenExpires: number;
+    },
+  ) {
+    CookieUtils.setResponseCookie(res, 'access', accessToken, {
+      expires: new Date(accessTokenExpires),
+    });
+
+    CookieUtils.setResponseCookie(res, 'refresh', refreshToken, {
+      expires: new Date(refreshTokenExpires),
+    });
   }
 }

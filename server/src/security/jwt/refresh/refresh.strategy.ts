@@ -22,10 +22,12 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     const refreshToken = CookieUtils.getRequestJwt('refresh')[0](req);
 
     const token = await this.refreshTokenRepository.find({
-      userId: payload.id,
-      token: refreshToken,
+      where: {
+        userId: payload.sub,
+        token: refreshToken,
+      },
     });
     if (!token) throw new UnauthorizedException();
-    return { ...payload, refreshToken };
+    return {...payload, refreshToken};
   }
 }

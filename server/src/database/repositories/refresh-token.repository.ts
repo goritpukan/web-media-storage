@@ -7,23 +7,19 @@ export class RefreshTokenRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findMany(
-    where?: Prisma.RefreshTokenWhereInput,
+    args?: Prisma.RefreshTokenFindManyArgs,
   ): Promise<RefreshToken[]> {
-    return this.prisma.refreshToken.findMany({
-      where,
-    });
+    return this.prisma.refreshToken.findMany(args);
   }
 
   async findById(id: string): Promise<RefreshToken> {
     return this.prisma.refreshToken.findUnique({
-      where: { id },
+      where: {id},
     });
   }
 
-  async find(where?: Prisma.RefreshTokenWhereInput): Promise<RefreshToken> {
-    return this.prisma.refreshToken.findFirst({
-      where,
-    });
+  async find(args?: Prisma.RefreshTokenFindFirstArgs): Promise<RefreshToken> {
+    return this.prisma.refreshToken.findFirst(args);
   }
 
   async create(data: RefreshToken): Promise<RefreshToken> {
@@ -48,7 +44,7 @@ export class RefreshTokenRepository {
     });
   }
 
-  async deleteMany(where: Prisma.RefreshTokenWhereInput) {
-    return this.prisma.refreshToken.deleteMany({ where });
+  async deleteMany(args?: Prisma.RefreshTokenDeleteManyArgs) {
+    return this.prisma.refreshToken.deleteMany(args);
   }
 }
