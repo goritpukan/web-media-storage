@@ -7,25 +7,25 @@ import {
 
 export class CreateUserDto {
   @ApiProperty({
-    description: 'email of the user',
+    description: 'Email of the user',
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('Email'))
   @IsEmail(undefined, validationMessages.mustBeType('Email', 'an email'))
-    email: string;
+  email: string;
 
   @ApiProperty({
     description: 'First name of the user',
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('First name'))
   @IsString(validationMessages.mustBeType('First name', 'a string'))
-    firstName: string;
+  firstName: string;
 
   @ApiProperty({
     description: 'Last name of the user',
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('Last name'))
   @IsString(validationMessages.mustBeType('Last name', 'a string'))
-    lastName: string;
+  lastName: string;
 
   @ApiProperty({
     description: 'Password of the user',
@@ -38,5 +38,5 @@ export class CreateUserDto {
       'The password must be between 6 and 32 characters long, include at least 1 digit and 1 latin letter',
     ),
   )
-    password: string;
+  password: string;
 }

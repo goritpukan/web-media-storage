@@ -1,7 +1,7 @@
 import { AutoMap } from '@automapper/classes';
 import { Roles } from '@prisma/client';
 
-export class UserEntity {
+export class UserDto {
   @AutoMap()
   id: string;
 
@@ -14,15 +14,6 @@ export class UserEntity {
   @AutoMap()
   lastName: string;
 
-  @AutoMap()
-  password: string;
-
   @AutoMap(() => String)
   role: Roles;
-
-  @AutoMap()
-  createdAt: Date;
-
-  @AutoMap()
-  updatedAt: Date;
 }

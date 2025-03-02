@@ -44,7 +44,7 @@ export class AuthService {
     const payload: JwtPayload = { sub: user.id };
 
     return this.jwtService.sign(payload, {
-      expiresIn: this.configService.get<string>('TTL'),
+      expiresIn: this.configService.get<string>(token == 'access' ? 'ACCESS_TTL' : 'REFRESH_TTL'),
       secret: this.configService.get<string>('JWT_SECRET'),
       ...options,
     });

@@ -3,7 +3,7 @@ import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { CookieUtils } from '../../utils/cookie.utils';
-import { User } from '../user/user.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -11,8 +11,8 @@ export class AuthController {
   }
 
   @Post('/login')
-  async login(@Body() loginDto: LoginDto, @Res({passthrough: true}) res: Response): Promise<User> {
-    const {accessToken, refreshToken, user} = await this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res({passthrough: true}) res: Response): Promise<UserEntity> {
+    const { accessToken, refreshToken, user } = await this.authService.login(loginDto);
     CookieUtils.setResponseJwt(res, {accessToken, refreshToken}, {
       accessTokenExpires: this.authService.getTokenExpTime(accessToken),
       refreshTokenExpires: this.authService.getTokenExpTime(refreshToken),

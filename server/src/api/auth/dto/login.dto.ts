@@ -11,7 +11,7 @@ export class LoginDto {
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('Email'))
   @IsEmail(undefined, validationMessages.mustBeType('Email', 'an email'))
-    email: string;
+  email: string;
 
   @ApiProperty({
     description: 'Password of the user',
@@ -24,5 +24,5 @@ export class LoginDto {
       'The password must be between 6 and 32 characters long, include at least 1 digit and 1 latin letter',
     ),
   )
-    password: string;
+  password: string;
 }

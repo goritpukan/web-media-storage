@@ -6,11 +6,11 @@ import {
 
 export class UpdateUserDto {
   @ApiProperty({
-    description: 'email of the user',
+    description: 'Email of the user',
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('Email'))
   @IsEmail(undefined, validationMessages.mustBeType('Email', 'an email'))
-    email: string;
+  email: string;
 
   @ApiProperty({
     description: 'First name of the user',
@@ -24,5 +24,5 @@ export class UpdateUserDto {
   })
   @IsNotEmpty(validationMessages.cannotBeEmpty('Last name'))
   @IsString(validationMessages.mustBeType('Last name', 'a string'))
-    lastName: string;
+  lastName: string;
 }
