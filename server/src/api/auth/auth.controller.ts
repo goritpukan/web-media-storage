@@ -1,9 +1,11 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseInterceptors } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { CookieUtils } from '../../utils/cookie.utils';
 import { UserEntity } from '../user/user.entity';
+import { MapInterceptor } from '@automapper/nestjs';
+import { UserDto } from '../user/dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +13,8 @@ export class AuthController {
   }
 
   @Post('/login')
-  async login(@Body() loginDto: LoginDto, @Res({passthrough: true}) res: Response): Promise<UserEntity> {
+  @UseInterceptors(MapInterceptor(UserEntity, UserDto))
+  async login(@Body() loginDto: LoginDto, @Res({passthrough: true}) res: Response): Promise<UserDto> {
     const { accessToken, refreshToken, user } = await this.authService.login(loginDto);
     CookieUtils.setResponseJwt(res, {accessToken, refreshToken}, {
       accessTokenExpires: this.authService.getTokenExpTime(accessToken),

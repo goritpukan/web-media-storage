@@ -8,6 +8,6 @@ import { UserProfile } from './user.profile';
   imports: [AccessModule],
   controllers: [UserController],
   providers: [UserService, UserProfile],
-  exports: [UserService],
+  exports: [UserService, UserProfile],
 })
 export class UserModule {}
