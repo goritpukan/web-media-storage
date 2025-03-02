@@ -41,7 +41,10 @@ export class AuthService {
     token: 'access' | 'refresh',
     options?: JwtSignOptions,
   ): string {
-    const payload: JwtPayload = { sub: user.id };
+    const payload: JwtPayload = {
+      sub: user.id,
+      role: user.role,
+    };
 
     return this.jwtService.sign(payload, {
       expiresIn: this.configService.get<string>(token == 'access' ? 'ACCESS_TTL' : 'REFRESH_TTL'),

@@ -4,6 +4,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { JwtPayload } from '../jwt-payload';
 import { CookieUtils } from '../../../utils/cookie.utils';
 import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class AccessStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
@@ -13,9 +14,13 @@ export class AccessStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
     });
   }
+
   async validate(payload: JwtPayload) {
-    console.log(payload);
     if (!payload) throw new UnauthorizedException();
-    return payload;
+    const user = {
+      id: payload.sub,
+      role: payload.role,
+    };
+    return user;
   }
 }

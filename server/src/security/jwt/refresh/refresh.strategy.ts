@@ -31,6 +31,6 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
       },
     });
     if (!token) throw new UnauthorizedException();
-    return {...payload, refreshToken};
+    return { ...payload, refreshToken };
   }
 }
