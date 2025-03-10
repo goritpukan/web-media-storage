@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.postgres.env
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - ./.minio.env
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  postgres_data:
+    driver: local
+  minio_data:
+    driver: local
