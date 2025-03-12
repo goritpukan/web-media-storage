@@ -20,6 +20,7 @@ model User {
   password      String
   role          Roles          @default(USER)
   refreshTokens RefreshToken[]
+  videos        Video[]
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at")
 
@@ -34,4 +35,16 @@ model RefreshToken {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("refresh_tokens")
+}
+
+model Video {
+  id               String @id @default(uuid())
+  name             String
+  description      String
+  user             User   @relation(fields: [authorId], references: [id])
+  authorId         String @map("author_id")
+  videoMinioPath   String @map("video_minio_path")
+  previewMinioPath String @map("preview_minio_path")
+
+  @@map("videos")
 }
