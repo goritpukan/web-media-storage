@@ -33,16 +33,6 @@ export class UserService {
     return this.userRepository.updateById(id, data);
   }
 
-  async updateRefreshToken(id: string, refreshToken: string): Promise<UserEntity> {
-    return await this.userRepository.updateById(id, {
-      refreshTokens: {
-        create: {
-          token: refreshToken,
-        },
-      },
-    });
-  }
-
   async deleteUserById(id: string): Promise<UserEntity> {
     return this.userRepository.deleteById(id);
   }

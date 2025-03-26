@@ -6,11 +6,14 @@ import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { JwtPayload } from '../../security/jwt/jwt-payload';
 import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
+import { UserEntity } from '../user/entities/user.entity';
+import { UserRepository } from '../../database/repositories/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
+    private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -32,7 +35,7 @@ export class AuthService {
     options?: JwtSignOptions,
   ): Promise<string> {
     const token = this.generateToken(user, 'refresh', options);
-    await this.userService.updateRefreshToken(user.id, token);
+    await this.updateRefreshToken(user.id, token);
     return token;
   }
 
@@ -52,6 +55,17 @@ export class AuthService {
       ...options,
     });
   }
+
+  async updateRefreshToken(id: string, refreshToken: string): Promise<UserEntity> {
+    return await this.userRepository.updateById(id, {
+      refreshTokens: {
+        create: {
+          token: refreshToken,
+        },
+      },
+    });
+  }
+
   getTokenExpTime(token: string): number {
     return this.jwtService.decode(token).exp * 1000;
   }
