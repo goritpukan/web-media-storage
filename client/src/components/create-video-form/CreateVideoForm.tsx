@@ -5,18 +5,19 @@ import FileUpload from '@/components/file-upload/FileUpload';
 import {
   buttonStyles,
   errorTypographyStyles,
-  uploadGridStyles
+  uploadGridStyles,
 } from '@/components/create-video-form/CreateVideoForm.styles';
-import { VideoCallRounded, ImageRounded } from '@mui/icons-material';
+import { VideoCallRounded, ImageRounded, PublicRounded, LockRounded } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { Box } from '@mui/system';
-import { Button, Typography } from '@mui/material';
+import { Button, MenuItem, Select, Typography } from '@mui/material';
 import UploadedVideoPreview from '@/components/uploaded-video-preview/UploadedVideoPreview';
 
 import { formSchema, FormData } from '@/components/create-video-form/formSchema';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { acceptedImageTypes, acceptedVideoTypes } from '@/lib/constants/acceptedFilesTypes';
+import { VideoAccessibility } from '@/components/create-video-form/types';
 
 export default function CreateVideoForm() {
   const [videoFileInfo, setVideoFileInfo] = useState<File | null>(null);
@@ -34,7 +35,7 @@ export default function CreateVideoForm() {
     if (file && acceptedVideoTypes.includes(file.type)) {
       setVideoFileInfo(file);
       setPreviewFileInfo(null);
-    }else{
+    } else {
       setVideoFileInfo(null);
       setPreviewFileInfo(null);
     }
@@ -43,14 +44,33 @@ export default function CreateVideoForm() {
     const file = event.target.files?.[0];
     if (file && acceptedImageTypes.includes(file.type)) {
       setPreviewFileInfo(file);
-    }else {
+    } else {
       setPreviewFileInfo(null);
     }
   }
 
   const onSubmit = async (data: FormData) => {
+    console.log(errors);
     console.log(data);
-    console.log(errors)
+    const formData = new window.FormData();
+    formData.append('name', data.name);
+    if (data.description) {
+      formData.append('description', data.description);
+    }
+    formData.append('accessibility', data.accessibility);
+    if (data.video) {
+      formData.append('video', data.video[0]);
+    }
+    if (data.preview) {
+      formData.append('preview', data.preview[0]);
+    }
+
+    await fetch('http://localhost:8800/video/',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
   }
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{width: '100%'}}>
@@ -86,6 +106,14 @@ export default function CreateVideoForm() {
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleVideoFileChange(e),
               })}
             />
+            <Select defaultValue={VideoAccessibility.PUBLIC} {...register('accessibility')}>
+              <MenuItem value={VideoAccessibility.PUBLIC}>
+                <PublicRounded/> Public
+              </MenuItem>
+              <MenuItem value={VideoAccessibility.PRIVATE}>
+                <LockRounded/> Private
+              </MenuItem>
+            </Select>
             <Typography sx={errorTypographyStyles}>{errors.video?.message}</Typography>
           </Grid>
           <Grid size={5}>
@@ -99,7 +127,7 @@ export default function CreateVideoForm() {
               text={'Upload preview'}
               accept={'.jpeg, .jpg, .png, .webp'}
               register={register('preview', {
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) => handlePreviewFileChange(e)
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => handlePreviewFileChange(e),
               })}
               sx={buttonStyles}
             />

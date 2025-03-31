@@ -12,6 +12,11 @@ enum Roles {
   ADMIN
 }
 
+enum VideoAccessibility {
+  PUBLIC
+  PRIVATE
+}
+
 model User {
   id            String         @id @default(uuid())
   email         String         @unique
@@ -38,13 +43,14 @@ model RefreshToken {
 }
 
 model Video {
-  id               String @id @default(uuid())
-  name             String
-  description      String
-  user             User   @relation(fields: [authorId], references: [id])
-  authorId         String @map("author_id")
-  videoMinioPath   String @map("video_minio_path")
-  previewMinioPath String @map("preview_minio_path")
+  id            String             @id @default(uuid())
+  name          String
+  description   String
+  user          User               @relation(fields: [authorId], references: [id])
+  authorId      String             @map("author_id")
+  videoKey      String             @map("video_key")
+  previewKey    String             @map("preview_key")
+  accessibility VideoAccessibility
 
   @@map("videos")
 }

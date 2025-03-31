@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { VideoEntity } from '../../api/video/entities/video.entity';
+import { CreateVideoDto } from '../../api/video/dto/create-video.dto';
 
 @Injectable()
 export class VideoRepository {
@@ -20,7 +21,7 @@ export class VideoRepository {
     return this.prisma.video.findFirst(args);
   }
 
-  async create(data: VideoEntity): Promise<VideoEntity> {
+  async create(data: Prisma.VideoCreateInput): Promise<VideoEntity> {
     return this.prisma.video.create({
       data,
     });
