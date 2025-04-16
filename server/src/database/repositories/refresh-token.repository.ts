@@ -14,7 +14,7 @@ export class RefreshTokenRepository {
 
   async findById(id: string): Promise<RefreshToken> {
     return this.prisma.refreshToken.findUnique({
-      where: {id},
+      where: { id },
     });
   }
 

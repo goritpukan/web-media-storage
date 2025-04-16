@@ -12,9 +12,11 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
   constructor(
     private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly configService: ConfigService,
-    ) {
+  ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors(CookieUtils.getRequestJwt('refresh')),
+      jwtFromRequest: ExtractJwt.fromExtractors(
+        CookieUtils.getRequestJwt('refresh'),
+      ),
       secretOrKey: configService.get<string>('JWT_SECRET'),
       ignoreExpiration: false,
       passReqToCallback: true,

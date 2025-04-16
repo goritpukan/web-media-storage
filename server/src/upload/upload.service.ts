@@ -1,6 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -8,10 +12,9 @@ export class UploadService {
   private client: S3Client;
   private bucketName: string = this.configService.get<string>('S3_BUCKET_NAME');
 
-  constructor(
-    private readonly configService: ConfigService,
-  ) {
-    const s3Region: string = this.configService.get<string>('S3_STORAGE_REGION');
+  constructor(private readonly configService: ConfigService) {
+    const s3Region: string =
+      this.configService.get<string>('S3_STORAGE_REGION');
 
     if (!s3Region) {
       throw new Error('S3_STORAGE_REGION not found in environment variables');
@@ -25,7 +28,7 @@ export class UploadService {
         secretAccessKey: this.configService.get<string>('S3_SECRET_ACCESS_KEY'),
       },
       forcePathStyle: true,
-    })
+    });
   }
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
@@ -42,7 +45,9 @@ export class UploadService {
       return key;
     } catch (error) {
       console.error(error);
-      throw new InternalServerErrorException('An error occurred while uploading the preview');
+      throw new InternalServerErrorException(
+        'An error occurred while uploading the preview',
+      );
     }
   }
 
@@ -57,5 +62,4 @@ export class UploadService {
       throw new InternalServerErrorException('Failed to delete file.');
     }
   }
-
 }

@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -16,10 +23,12 @@ export class VideoController {
 
   @UseGuards(AccessGuard, AdminGuard)
   @Post('/')
-  @UseInterceptors(FileFieldsInterceptor([
-    {name: 'video', maxCount: 1},
-    {name: 'preview', maxCount: 1},
-  ]))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'video', maxCount: 1 },
+      { name: 'preview', maxCount: 1 },
+    ]),
+  )
   async createVideo(
     @UploadedFiles() files: UploadFiles,
     @Body() createVideoDto: CreateVideoDto,

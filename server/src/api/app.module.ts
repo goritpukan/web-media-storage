@@ -19,7 +19,7 @@ import { VideoModule } from './video/video.module';
     AuthModule,
     UserModule,
     DatabaseModule,
-    VideoModule
+    VideoModule,
   ],
 })
 export class AppModule {}

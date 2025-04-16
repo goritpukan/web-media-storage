@@ -14,7 +14,7 @@ export class UserRepository {
 
   async findById(id: string): Promise<UserEntity> {
     return this.prisma.user.findUnique({
-      where: {id},
+      where: { id },
     });
   }
 
@@ -28,20 +28,23 @@ export class UserRepository {
     });
   }
 
-  async updateById(id: string, data: Prisma.UserUpdateInput): Promise<UserEntity> {
+  async updateById(
+    id: string,
+    data: Prisma.UserUpdateInput,
+  ): Promise<UserEntity> {
     return this.prisma.user.update({
-      where: {id},
+      where: { id },
       data,
     });
   }
 
   async deleteById(id: string): Promise<UserEntity> {
     return this.prisma.user.delete({
-      where: {id},
+      where: { id },
     });
   }
 
-  async deleteMany(args?: Prisma.UserDeleteManyArgs){
+  async deleteMany(args?: Prisma.UserDeleteManyArgs) {
     return this.prisma.user.deleteMany(args);
   }
 }

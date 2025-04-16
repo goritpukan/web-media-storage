@@ -9,7 +9,9 @@ import { ConfigService } from '@nestjs/config';
 export class AccessStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors(CookieUtils.getRequestJwt('access')),
+      jwtFromRequest: ExtractJwt.fromExtractors(
+        CookieUtils.getRequestJwt('access'),
+      ),
       secretOrKey: configService.get<string>('JWT_SECRET'),
       ignoreExpiration: false,
     });

@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import {
-  validationMessages,
-} from '../../../utils/validation.util';
+import { validationMessages } from '../../../utils/validation.util';
 
 export class UpdateUserDto {
   @ApiProperty({

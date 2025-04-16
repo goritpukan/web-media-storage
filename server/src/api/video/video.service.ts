@@ -10,10 +10,13 @@ export class VideoService {
   constructor(
     private readonly videoRepository: VideoRepository,
     private readonly uploadService: UploadService,
-  ) {
-  }
+  ) {}
 
-  async createVideo(data: CreateVideoDto, files: UploadFiles, user: UserEntity) {
+  async createVideo(
+    data: CreateVideoDto,
+    files: UploadFiles,
+    user: UserEntity,
+  ) {
     let previewKey: string | null = null;
     let videoKey: string | null = null;
     try {
@@ -22,21 +25,20 @@ export class VideoService {
         this.uploadService.uploadFile(files.preview[0]),
       ]);
       return await this.videoRepository.create({
-          ...data,
-          videoKey,
-          previewKey,
-          user: {
-            connect: {id: user.id},
-          },
+        ...data,
+        videoKey,
+        previewKey,
+        user: {
+          connect: { id: user.id },
         },
-      )
+      });
     } catch (error) {
       await Promise.all([
         this.uploadService.deleteFileByKey(videoKey),
-        this.uploadService.deleteFileByKey(previewKey)
-      ])
+        this.uploadService.deleteFileByKey(previewKey),
+      ]);
 
-        throw new InternalServerErrorException();
+      throw new InternalServerErrorException();
     }
   }
 }

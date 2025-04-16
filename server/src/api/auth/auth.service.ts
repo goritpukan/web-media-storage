@@ -50,13 +50,18 @@ export class AuthService {
     };
 
     return this.jwtService.sign(payload, {
-      expiresIn: this.configService.get<string>(token == 'access' ? 'ACCESS_TTL' : 'REFRESH_TTL'),
+      expiresIn: this.configService.get<string>(
+        token == 'access' ? 'ACCESS_TTL' : 'REFRESH_TTL',
+      ),
       secret: this.configService.get<string>('JWT_SECRET'),
       ...options,
     });
   }
 
-  async updateRefreshToken(id: string, refreshToken: string): Promise<UserEntity> {
+  async updateRefreshToken(
+    id: string,
+    refreshToken: string,
+  ): Promise<UserEntity> {
     return await this.userRepository.updateById(id, {
       refreshTokens: {
         create: {

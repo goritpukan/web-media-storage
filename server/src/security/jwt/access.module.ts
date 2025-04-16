@@ -20,15 +20,7 @@ import { ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  providers: [
-    AccessStrategy,
-    RefreshStrategy,
-    AccessGuard,
-    RefreshGuard,
-  ],
-  exports: [
-    AccessGuard,
-    RefreshGuard,
-  ]
+  providers: [AccessStrategy, RefreshStrategy, AccessGuard, RefreshGuard],
+  exports: [AccessGuard, RefreshGuard],
 })
 export class AccessModule {}

@@ -13,7 +13,7 @@ export class VideoRepository {
 
   async findById(id: string): Promise<VideoEntity> {
     return this.prisma.video.findUnique({
-      where: {id},
+      where: { id },
     });
   }
 
@@ -27,20 +27,23 @@ export class VideoRepository {
     });
   }
 
-  async updateById(id: string, data: Prisma.VideoUpdateInput): Promise<VideoEntity> {
+  async updateById(
+    id: string,
+    data: Prisma.VideoUpdateInput,
+  ): Promise<VideoEntity> {
     return this.prisma.video.update({
-      where: {id},
+      where: { id },
       data,
     });
   }
 
   async deleteById(id: string): Promise<VideoEntity> {
     return this.prisma.video.delete({
-      where: {id},
+      where: { id },
     });
   }
 
-  async deleteMany(args?: Prisma.VideoDeleteManyArgs){
+  async deleteMany(args?: Prisma.VideoDeleteManyArgs) {
     return this.prisma.video.deleteMany(args);
   }
 }

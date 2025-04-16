@@ -1,6 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 
-export class VideoEntity{
+export class VideoEntity {
   @AutoMap()
   id: string;
 
