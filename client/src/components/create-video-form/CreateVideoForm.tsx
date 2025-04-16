@@ -67,6 +67,7 @@ export default function CreateVideoForm() {
       {
         method: 'POST',
         body: formData,
+        credentials: 'include',
       },
     );
   }

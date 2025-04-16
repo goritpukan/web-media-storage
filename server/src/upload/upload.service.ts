@@ -62,4 +62,11 @@ export class UploadService {
       throw new InternalServerErrorException('Failed to delete file.');
     }
   }
+
+  getPublicUrl(key: string): string {
+    const bucketUrl = this.configService
+      .get<string>('S3_STORAGE_URL')
+      .replace('s3', 'object');
+    return `${bucketUrl}/${this.bucketName}/${key}`;
+  }
 }

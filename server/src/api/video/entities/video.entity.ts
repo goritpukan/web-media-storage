@@ -17,5 +17,11 @@ export class VideoEntity {
   videoKey: string;
 
   @AutoMap()
+  videoUrl: string;
+
+  @AutoMap()
   previewKey: string;
+
+  @AutoMap()
+  previewUrl: string;
 }

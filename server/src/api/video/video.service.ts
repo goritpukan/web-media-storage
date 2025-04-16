@@ -4,6 +4,8 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UploadService } from '../../upload/upload.service';
 import { UploadFiles } from '../../types/video/upload-files.interface';
 import { UserEntity } from '../user/entities/user.entity';
+import { VideoEntity } from './entities/video.entity';
+import {UpdateVideoDto} from "./dto/update-video.dto";
 
 @Injectable()
 export class VideoService {
@@ -20,14 +22,16 @@ export class VideoService {
     let previewKey: string | null = null;
     let videoKey: string | null = null;
     try {
-      [previewKey, videoKey] = await Promise.all([
+      [videoKey, previewKey] = await Promise.all([
         this.uploadService.uploadFile(files.video[0]),
         this.uploadService.uploadFile(files.preview[0]),
       ]);
       return await this.videoRepository.create({
         ...data,
         videoKey,
+        videoUrl: this.uploadService.getPublicUrl(videoKey),
         previewKey,
+        previewUrl: this.uploadService.getPublicUrl(previewKey),
         user: {
           connect: { id: user.id },
         },
@@ -40,5 +44,21 @@ export class VideoService {
 
       throw new InternalServerErrorException();
     }
+  }
+
+  async getAllVideos(): Promise<VideoEntity[]> {
+    return this.videoRepository.findMany();
+  }
+
+  async getVideoById(id: string): Promise<VideoEntity> {
+    return this.videoRepository.findById(id);
+  }
+
+  async deleteVideoById(id: string): Promise<VideoEntity> {
+    return this.videoRepository.deleteById(id);
+  }
+
+  async updateVideoById(id: string, data: UpdateVideoDto): Promise<VideoEntity> {
+    return this.videoRepository.updateById(id, data);
   }
 }

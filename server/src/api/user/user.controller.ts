@@ -65,7 +65,10 @@ export class UserController {
   @UseGuards(AccessGuard, AdminOrMeGuard)
   @Patch('/:id')
   @UseInterceptors(MapInterceptor(UserEntity, UserDto))
-  async updateUserById(@Body() body: CreateUserDto, @Param('id') id: string) {
+  async updateUserById(
+    @Body() body: CreateUserDto,
+    @Param('id') id: string,
+  ): Promise<UserDto> {
     return this.userService.updateUserById(id, body);
   }
 

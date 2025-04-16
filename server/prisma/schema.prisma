@@ -49,7 +49,9 @@ model Video {
   user        User   @relation(fields: [authorId], references: [id])
   authorId    String @map("author_id")
   videoKey    String @map("video_key")
+  videoUrl    String @map("video_url")
   previewKey  String @map("preview_key")
+  previewUrl  String @map("preview_url")
 
   @@map("videos")
 }
