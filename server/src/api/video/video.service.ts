@@ -3,7 +3,6 @@ import { VideoRepository } from '../../database/repositories/video.repository';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UploadService } from '../../upload/upload.service';
 import { UploadFiles } from '../../types/video/upload-files.interface';
-import { VideoAccessibility } from '@prisma/client';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
@@ -19,8 +18,8 @@ export class VideoService {
     let videoKey: string | null = null;
     try {
       [previewKey, videoKey] = await Promise.all([
-        this.uploadService.uploadFile(files.video[0], data.accessibility === VideoAccessibility.PRIVATE),
-        this.uploadService.uploadFile(files.preview[0], false),
+        this.uploadService.uploadFile(files.video[0]),
+        this.uploadService.uploadFile(files.preview[0]),
       ]);
       return await this.videoRepository.create({
           ...data,

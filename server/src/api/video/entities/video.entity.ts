@@ -1,5 +1,4 @@
 import { AutoMap } from '@automapper/classes';
-import { VideoAccessibility } from '@prisma/client';
 
 export class VideoEntity{
   @AutoMap()
@@ -19,7 +18,4 @@ export class VideoEntity{
 
   @AutoMap()
   previewKey: string;
-
-  @AutoMap()
-  accessibility: VideoAccessibility;
 }

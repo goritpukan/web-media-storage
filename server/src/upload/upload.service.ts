@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DeleteObjectCommand, PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class UploadService {
     })
   }
 
-  async uploadFile(file: Express.Multer.File, isPrivate: boolean): Promise<string> {
+  async uploadFile(file: Express.Multer.File): Promise<string> {
     try {
       const key: string = uuidv4();
       const command = new PutObjectCommand({
@@ -36,11 +36,12 @@ export class UploadService {
         Key: key,
         Body: file.buffer,
         ContentType: file.mimetype || 'video/mp4',
-        ACL: isPrivate ? 'private' : 'public-read',
+        ACL: 'public-read',
       });
       await this.client.send(command);
       return key;
     } catch (error) {
+      console.error(error);
       throw new InternalServerErrorException('An error occurred while uploading the preview');
     }
   }

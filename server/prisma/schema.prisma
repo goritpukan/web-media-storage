@@ -43,14 +43,13 @@ model RefreshToken {
 }
 
 model Video {
-  id            String             @id @default(uuid())
-  name          String
-  description   String
-  user          User               @relation(fields: [authorId], references: [id])
-  authorId      String             @map("author_id")
-  videoKey      String             @map("video_key")
-  previewKey    String             @map("preview_key")
-  accessibility VideoAccessibility
+  id          String @id @default(uuid())
+  name        String
+  description String
+  user        User   @relation(fields: [authorId], references: [id])
+  authorId    String @map("author_id")
+  videoKey    String @map("video_key")
+  previewKey  String @map("preview_key")
 
   @@map("videos")
 }
