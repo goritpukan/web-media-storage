@@ -7,17 +7,16 @@ import {
   errorTypographyStyles,
   uploadGridStyles,
 } from '@/components/create-video-form/CreateVideoForm.styles';
-import { VideoCallRounded, ImageRounded, PublicRounded, LockRounded } from '@mui/icons-material';
+import { VideoCallRounded, ImageRounded, } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { Box } from '@mui/system';
-import { Button, MenuItem, Select, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import UploadedVideoPreview from '@/components/uploaded-video-preview/UploadedVideoPreview';
 
 import { formSchema, FormData } from '@/components/create-video-form/formSchema';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { acceptedImageTypes, acceptedVideoTypes } from '@/lib/constants/acceptedFilesTypes';
-import { VideoAccessibility } from '@/components/create-video-form/types';
 
 export default function CreateVideoForm() {
   const [videoFileInfo, setVideoFileInfo] = useState<File | null>(null);
@@ -57,7 +56,6 @@ export default function CreateVideoForm() {
     if (data.description) {
       formData.append('description', data.description);
     }
-    formData.append('accessibility', data.accessibility);
     if (data.video) {
       formData.append('video', data.video[0]);
     }
@@ -106,14 +104,6 @@ export default function CreateVideoForm() {
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleVideoFileChange(e),
               })}
             />
-            <Select defaultValue={VideoAccessibility.PUBLIC} {...register('accessibility')}>
-              <MenuItem value={VideoAccessibility.PUBLIC}>
-                <PublicRounded/> Public
-              </MenuItem>
-              <MenuItem value={VideoAccessibility.PRIVATE}>
-                <LockRounded/> Private
-              </MenuItem>
-            </Select>
             <Typography sx={errorTypographyStyles}>{errors.video?.message}</Typography>
           </Grid>
           <Grid size={5}>

@@ -34,8 +34,8 @@ export class VideoService {
       });
     } catch (error) {
       await Promise.all([
-        this.uploadService.deleteFileByKey(videoKey),
-        this.uploadService.deleteFileByKey(previewKey),
+        videoKey ? this.uploadService.deleteFileByKey(videoKey) : null,
+        previewKey ? this.uploadService.deleteFileByKey(previewKey) : null,
       ]);
 
       throw new InternalServerErrorException();
