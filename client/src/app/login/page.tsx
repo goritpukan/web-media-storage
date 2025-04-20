@@ -9,7 +9,7 @@ import {LoginData, loginSchema} from "@/app/login/loginSchema";
 import {useMutation} from "@tanstack/react-query";
 import api from "@/lib/axios";
 import {AxiosError} from "axios";
-import {useRouter} from "next/router";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
     const router = useRouter();
