@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
+const imageUrl = process.env.IMAGE_URL;
+if(!imageUrl) throw new Error("Image URL is missing");
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: imageUrl,
+    }],
+  }
 };
 
 export default nextConfig;
