@@ -1,7 +1,13 @@
 import { FileUploadProps } from '@/components/file-upload/types';
 import { Button } from '@mui/material';
 
-export default function FileUpload({text, sx, startIcon, accept, register}: FileUploadProps) {
+export default function FileUpload({
+  text,
+  sx,
+  startIcon,
+  accept,
+  register,
+}: FileUploadProps) {
   return (
     <Button
       sx={sx}
@@ -13,13 +19,7 @@ export default function FileUpload({text, sx, startIcon, accept, register}: File
       fullWidth={true}
     >
       {text}
-      <input
-        type="file"
-        multiple
-        hidden={true}
-        {...register}
-        accept={accept}
-      />
+      <input type="file" multiple hidden={true} {...register} accept={accept} />
     </Button>
-  )
+  );
 }

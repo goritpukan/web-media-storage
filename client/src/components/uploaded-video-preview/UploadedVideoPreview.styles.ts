@@ -3,7 +3,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 export const previewStyles: SxProps<Theme> = {
   justifyContent: 'flex-start',
   alignItems: 'center',
-}
+};
 
 export const imageStyles: SxProps<Theme> = {
   width: '400px',
@@ -11,4 +11,4 @@ export const imageStyles: SxProps<Theme> = {
   border: '1px solid black',
   display: 'flex',
   objectFit: 'cover',
-}
+};
