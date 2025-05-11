@@ -41,7 +41,7 @@ export default function Page() {
 
   return (
     <Box sx={loginPageStyle}>
-      <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
+      <Box width={{xs: '100%', sm: 'auto'}}  component={'form'} onSubmit={handleSubmit(onSubmit)}>
         <Grid sx={loginGridStyle} container direction="column" spacing={2}>
           <Typography fontSize={'x-large'} textAlign={'center'}>
             Log in
