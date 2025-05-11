@@ -5,7 +5,7 @@ import { UploadService } from '../../upload/upload.service';
 import { UploadFiles } from '../../types/video/upload-files.interface';
 import { UserEntity } from '../user/entities/user.entity';
 import { VideoEntity } from './entities/video.entity';
-import {UpdateVideoDto} from "./dto/update-video.dto";
+import { UpdateVideoDto } from './dto/update-video.dto';
 
 @Injectable()
 export class VideoService {
@@ -32,7 +32,7 @@ export class VideoService {
         videoUrl: this.uploadService.getPublicUrl(videoKey),
         previewKey,
         previewUrl: this.uploadService.getPublicUrl(previewKey),
-        user: {
+        author: {
           connect: { id: user.id },
         },
       });
@@ -47,7 +47,16 @@ export class VideoService {
   }
 
   async getAllVideos(): Promise<VideoEntity[]> {
-    return this.videoRepository.findMany();
+    return this.videoRepository.findMany({
+      include: {
+        author: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
   }
 
   async getVideoById(id: string): Promise<VideoEntity> {
@@ -58,7 +67,10 @@ export class VideoService {
     return this.videoRepository.deleteById(id);
   }
 
-  async updateVideoById(id: string, data: UpdateVideoDto): Promise<VideoEntity> {
+  async updateVideoById(
+    id: string,
+    data: UpdateVideoDto,
+  ): Promise<VideoEntity> {
     return this.videoRepository.updateById(id, data);
   }
 }

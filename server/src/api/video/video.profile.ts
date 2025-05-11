@@ -4,6 +4,7 @@ import { createMap, Mapper, MappingProfile } from '@automapper/core';
 import { VideoEntity } from './entities/video.entity';
 import { PaginatedVideosDto } from './dto/paginated-videos.dto';
 import { VideoDto } from './dto/video.dto';
+import { AuthorDto } from './dto/author-dto';
 
 @Injectable()
 export class VideoProfile extends AutomapperProfile {
@@ -13,6 +14,7 @@ export class VideoProfile extends AutomapperProfile {
 
   override get profile(): MappingProfile {
     return (mapper: Mapper) => {
+      createMap(mapper, VideoEntity, AuthorDto)
       createMap(mapper, VideoEntity, PaginatedVideosDto);
       createMap(mapper, VideoEntity, VideoDto);
     };

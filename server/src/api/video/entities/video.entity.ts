@@ -1,4 +1,5 @@
 import { AutoMap } from '@automapper/classes';
+import { AuthorDto } from '../dto/author-dto';
 
 export class VideoEntity {
   @AutoMap()
@@ -13,6 +14,9 @@ export class VideoEntity {
   @AutoMap()
   authorId: string;
 
+  @AutoMap(() => AuthorDto)
+  author?: AuthorDto
+
   @AutoMap()
   videoKey: string;
 
@@ -24,4 +28,13 @@ export class VideoEntity {
 
   @AutoMap()
   previewUrl: string;
+
+  @AutoMap()
+  duration: number;
+
+  @AutoMap()
+  createdAt: Date;
+
+  @AutoMap()
+  updatedAt: Date;
 }

@@ -1,10 +1,8 @@
-import api from '@/lib/axios';
 import { IVideoPreview } from '@/types/video';
 import VideosList from '@/components/videos-list/VideosList';
 
 export default async function Home() {
-  const response = await api.get('/video');
-  const videos: IVideoPreview[] = response.data;
-
-  return <VideosList videos={videos}></VideosList>;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/video`);
+  const videos: IVideoPreview[] = await res.json();
+  return <VideosList videos={videos}/>;
 }

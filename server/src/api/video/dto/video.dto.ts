@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AutoMap } from '@automapper/classes';
+import { AuthorDto } from './author-dto';
 
 export class VideoDto {
   @ApiProperty({
@@ -25,6 +26,12 @@ export class VideoDto {
   })
   @AutoMap()
   authorId: string;
+
+  @ApiProperty({
+    description: 'Author of the video',
+  })
+  @AutoMap(() => AuthorDto)
+  author?: AuthorDto;
 
   @ApiProperty({
     description: 'Url of the video',
