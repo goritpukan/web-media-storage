@@ -14,7 +14,7 @@ export class VideoProfile extends AutomapperProfile {
 
   override get profile(): MappingProfile {
     return (mapper: Mapper) => {
-      createMap(mapper, VideoEntity, AuthorDto)
+      createMap(mapper, VideoEntity, AuthorDto);
       createMap(mapper, VideoEntity, PaginatedVideosDto);
       createMap(mapper, VideoEntity, VideoDto);
     };

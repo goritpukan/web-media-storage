@@ -15,7 +15,7 @@ export class VideoEntity {
   authorId: string;
 
   @AutoMap(() => AuthorDto)
-  author?: AuthorDto
+  author?: AuthorDto;
 
   @AutoMap()
   videoKey: string;

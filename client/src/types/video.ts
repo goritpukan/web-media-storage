@@ -1,10 +1,10 @@
 export interface IVideoPreview {
   id: string;
   name: string;
-  author:{
+  author: {
     firstName: string;
     lastName: string;
-  }
+  };
   duration: number;
   previewUrl: string;
   createdAt: Date;

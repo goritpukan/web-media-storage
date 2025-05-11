@@ -9,4 +9,4 @@ export const GridStyles: SxProps<Theme> = {
     xs: 'center',
     md: 'start',
   },
-}
+};

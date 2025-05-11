@@ -12,7 +12,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <Box>
-      <VideoPlayer url={video.videoUrl}/>
+      <VideoPlayer url={video.videoUrl} />
     </Box>
   );
 }

@@ -3,7 +3,10 @@ import Image from 'next/image';
 import { IVideoPreview } from '@/types/video';
 import { Typography } from '@mui/material';
 import Link from 'next/link';
-import { durationStyles, gridStyles } from '@/components/video-preview/VideoPreview.styles';
+import {
+  durationStyles,
+  gridStyles,
+} from '@/components/video-preview/VideoPreview.styles';
 import { formatDuration } from '@/lib/formatDuration';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -17,10 +20,7 @@ export default function VideoPreview({ video }: { video: IVideoPreview }) {
       sx={gridStyles}
     >
       <Grid position={'relative'} width={'100%'} paddingTop={'56.25%'}>
-        <Image
-          fill
-          src={video.previewUrl}
-          alt={'Video Preview'}/>
+        <Image fill src={video.previewUrl} alt={'Video Preview'} />
         <Typography sx={durationStyles}>
           {formatDuration(video.duration)}
         </Typography>
@@ -33,7 +33,8 @@ export default function VideoPreview({ video }: { video: IVideoPreview }) {
           Author: {video.author.firstName} {video.author.lastName}
         </Typography>
         <Typography textAlign={'center'} color={'black'}>
-          Created: {formatDistanceToNow(new Date(video.createdAt), { addSuffix: true })}
+          Created:{' '}
+          {formatDistanceToNow(new Date(video.createdAt), { addSuffix: true })}
         </Typography>
       </Grid>
     </Grid>

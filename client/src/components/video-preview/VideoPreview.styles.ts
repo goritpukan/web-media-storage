@@ -7,14 +7,14 @@ export const gridStyles: SxProps<Theme> = {
   textDecoration: 'none',
   width: {
     xs: '500px',
-    md: '300px'
+    md: '300px',
   },
   position: 'relative',
   border: '1px solid gray',
   borderRadius: '5px',
   padding: '20px',
   backgroundColor: '#f5f5f5',
-}
+};
 
 export const durationStyles: SxProps<Theme> = {
   position: 'absolute',
@@ -26,4 +26,4 @@ export const durationStyles: SxProps<Theme> = {
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
   padding: '5px',
   borderRadius: '5px',
-}
+};
