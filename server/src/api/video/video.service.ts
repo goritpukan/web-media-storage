@@ -60,7 +60,16 @@ export class VideoService {
   }
 
   async getVideoById(id: string): Promise<VideoEntity> {
-    return this.videoRepository.findById(id);
+    return this.videoRepository.findById(id, {
+      include: {
+        author: {
+          select: {
+            firstName: true,
+            lastName: true,
+          }
+        }
+      }
+    });
   }
 
   async deleteVideoById(id: string): Promise<VideoEntity> {

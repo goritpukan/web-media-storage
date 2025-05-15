@@ -11,7 +11,7 @@ interface Props {
 }
 export default function VideoPlayer({ url }: Props) {
   return (
-    <Box>
+    <Box position={'relative'}>
       <ReactPlayer controls url={url} />
     </Box>
   );

@@ -12,7 +12,12 @@ export interface IVideoPreview {
 export interface IVideo {
   id: string;
   name: string;
+  author: {
+    firstName: string;
+    lastName: string;
+  };
   description: string;
   authorId: string;
   videoUrl: string;
+  createdAt: Date;
 }

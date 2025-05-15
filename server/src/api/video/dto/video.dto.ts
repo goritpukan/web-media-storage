@@ -38,4 +38,10 @@ export class VideoDto {
   })
   @AutoMap()
   videoUrl: string;
+
+  @ApiProperty({
+    description: 'Video creation date',
+  })
+  @AutoMap()
+  createdAt: Date;
 }

@@ -22,7 +22,7 @@ export const loginGridStyle: SxProps<Theme> = {
     sm: '500px',
   },
   height: 'auto',
-  margin: 'auto'
+  margin: 'auto',
 };
 
 export const buttonStyle: SxProps<Theme> = {
