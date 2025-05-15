@@ -8,6 +8,9 @@ import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserRepository } from '../../database/repositories/user.repository';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { UserDto } from '../user/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,7 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    @InjectMapper() private readonly mapper: Mapper,
   ) {}
 
   async login(data: LoginDto) {
@@ -23,10 +27,14 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(data.password, user.password))) {
       throw new UnauthorizedException('Password or email is incorrect');
     }
+    const accessToken: string = this.generateToken(user, 'access');
+    const refreshToken: string = await this.createRefreshToken(user);
+    const userDto = this.mapper.map(user, UserEntity, UserDto);
     return {
-      accessToken: this.generateToken(user, 'access'),
-      refreshToken: await this.createRefreshToken(user),
-      user,
+      accessToken,
+      refreshToken,
+      expiresIn: this.getTokenExpTime(accessToken),
+      userDto,
     };
   }
 
