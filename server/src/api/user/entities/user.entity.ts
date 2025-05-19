@@ -1,5 +1,5 @@
 import { AutoMap } from '@automapper/classes';
-import { Roles } from '@prisma/client';
+import { RefreshToken, Roles } from '@prisma/client';
 
 export class UserEntity {
   @AutoMap()
@@ -25,4 +25,6 @@ export class UserEntity {
 
   @AutoMap()
   updatedAt: Date;
+
+  refreshToken?: RefreshToken;
 }

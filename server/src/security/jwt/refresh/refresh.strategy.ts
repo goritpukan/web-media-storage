@@ -6,6 +6,9 @@ import { Request } from 'express';
 import { CookieUtils } from '../../../utils/cookie.utils';
 import { RefreshTokenRepository } from '../../../database/repositories/refresh-token.repository';
 import { ConfigService } from '@nestjs/config';
+import { RefreshToken, User } from '@prisma/client';
+
+export type UserWithRefreshToken = User & { token?: RefreshToken };
 
 @Injectable()
 export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
@@ -33,6 +36,6 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
       },
     });
     if (!token) throw new UnauthorizedException();
-    return { ...payload, refreshToken };
+    return { ...payload, token };
   }
 }

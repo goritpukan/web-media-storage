@@ -24,6 +24,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminOrMeGuard } from '../../security/jwt/roles/admin-or-me.guard';
+import { GetUser } from '../../decorators/get-user.decorator';
+import { UserWithRefreshToken } from '../../security/jwt/refresh/refresh.strategy';
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -39,6 +41,17 @@ export class UserController {
   @UseInterceptors(MapInterceptor(UserEntity, UserDto))
   async getUserById(@Param('id') id: string): Promise<UserDto> {
     return this.userService.getUserById(id);
+  }
+
+  @ApiOperation({ summary: 'Get me' })
+  @ApiOkResponse({ description: 'Return mapped user', type: UserDto })
+  @UseGuards(AccessGuard)
+  @Get('get/me')
+  @UseInterceptors(MapInterceptor(UserEntity, UserDto))
+  async getMe(
+    @GetUser() user: UserEntity
+  ): Promise<UserDto> {
+    return this.userService.getMe(user);
   }
 
   @ApiOperation({ summary: 'Get all users' })

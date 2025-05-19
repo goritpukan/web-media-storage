@@ -25,6 +25,10 @@ export class UserService {
     return user;
   }
 
+  async getMe(user: UserEntity){
+    return this.getUserById(user.id);
+  }
+
   async getAllUsers(): Promise<UserEntity[]> {
     return this.userRepository.findMany();
   }

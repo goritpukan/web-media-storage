@@ -66,9 +66,9 @@ export class VideoService {
           select: {
             firstName: true,
             lastName: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
   }
 

@@ -6,14 +6,17 @@ import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { JwtPayload } from '../../security/jwt/jwt-payload';
 import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity } from '../user/entities/user.entity';
 import { UserRepository } from '../../database/repositories/user.repository';
+import { RefreshTokenRepository } from '../../database/repositories/refresh-token.repository';
+import { UserWithRefreshToken } from '../../security/jwt/refresh/refresh.strategy';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly userRepository: UserRepository,
+    private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -35,7 +38,13 @@ export class AuthService {
     options?: JwtSignOptions,
   ): Promise<string> {
     const token = this.generateToken(user, 'refresh', options);
-    await this.updateRefreshToken(user.id, token);
+    await this.userRepository.updateById(user.id, {
+      refreshTokens: {
+        create: {
+          token: token,
+        },
+      },
+    });
     return token;
   }
 
@@ -58,20 +67,17 @@ export class AuthService {
     });
   }
 
-  async updateRefreshToken(
-    id: string,
-    refreshToken: string,
-  ): Promise<UserEntity> {
-    return await this.userRepository.updateById(id, {
-      refreshTokens: {
-        create: {
-          token: refreshToken,
-        },
-      },
-    });
-  }
-
   getTokenExpTime(token: string): number {
     return this.jwtService.decode(token).exp * 1000;
+  }
+
+  async refresh (userWithToken: UserWithRefreshToken) {
+    const expiresIn = Math.floor((this.getTokenExpTime(userWithToken.token.token) - Date.now()) / 1000);
+    await this.refreshTokenRepository.deleteById(userWithToken.token.id);
+    const user: UserEntity = await this.userRepository.findById(userWithToken.token.userId);
+    return {
+      accessToken: this.generateToken(user, 'access'),
+      refreshToken: await this.createRefreshToken(user, { expiresIn }),
+    };
   }
 }

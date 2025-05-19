@@ -1,9 +1,14 @@
+'use client'
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import { headerStyle, homeButtonStyle } from './Header.styles';
 import { Box } from '@mui/system';
+import { useContext } from 'react';
+import { AuthenticationContext } from '@/lib/providers/AuthenticationProvider';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Header() {
+  const { user } = useContext(AuthenticationContext);
   return (
     <AppBar sx={headerStyle} position="sticky">
       <Toolbar>
@@ -14,9 +19,10 @@ export default function Header() {
             </Typography>
           </Button>
         </Box>
-        <Button variant={'contained'} component={Link} href={'/login'}>
-          Login
-        </Button>
+        {user !== undefined
+          ? <AccountCircleIcon color={'action'} sx={{fontSize: '50px', cursor: 'pointer'}}/>
+          : <Button variant={'contained'} component={Link} href={'/login'}>Login</Button>
+        }
       </Toolbar>
     </AppBar>
   );
