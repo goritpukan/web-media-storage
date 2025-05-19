@@ -23,6 +23,9 @@ import {
   acceptedImageTypes,
   acceptedVideoTypes,
 } from '@/lib/constants/acceptedFilesTypes';
+import api from '@/lib/axios';
+import { useRouter } from 'next/navigation';
+import { IVideoPreview } from '@/types/video';
 
 export default function CreateVideoForm() {
   const [videoFileInfo, setVideoFileInfo] = useState<File | null>(null);
@@ -34,6 +37,7 @@ export default function CreateVideoForm() {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+  const router = useRouter();
 
   const handleVideoFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -59,8 +63,6 @@ export default function CreateVideoForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log(errors);
-    console.log(data);
     const formData = new window.FormData();
     formData.append('name', data.name);
     if (data.description) {
@@ -73,19 +75,32 @@ export default function CreateVideoForm() {
       formData.append('preview', data.preview[0]);
     }
 
-    await fetch('http://localhost:8800/video/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
+    const res = await api.post<IVideoPreview>(`${process.env.NEXT_PUBLIC_API_URL}/video/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
+    const resData: IVideoPreview = res.data
+    if(res.status === 201){
+      router.push(`/video/${resData.id}`);
+    }
   };
   return (
     <Box
       component="form"
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ width: '100%' }}
+      position={'relative'}
+      sx={{ width: '100%', height: '100%' }}
     >
-      <Grid direction={'column'} container spacing={2}>
+      <Grid
+        position={'relative'}
+        sx={{ width: '100%', height: '100%' }}
+        direction={'column'}
+        container
+        spacing={2}
+        alignItems={'center'}
+        paddingTop={'10px'}
+      >
         <Grid size={5}>
           <TextField
             label="Name"

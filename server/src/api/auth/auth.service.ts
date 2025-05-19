@@ -71,10 +71,14 @@ export class AuthService {
     return this.jwtService.decode(token).exp * 1000;
   }
 
-  async refresh (userWithToken: UserWithRefreshToken) {
-    const expiresIn = Math.floor((this.getTokenExpTime(userWithToken.token.token) - Date.now()) / 1000);
+  async refresh(userWithToken: UserWithRefreshToken) {
+    const expiresIn = Math.floor(
+      (this.getTokenExpTime(userWithToken.token.token) - Date.now()) / 1000,
+    );
     await this.refreshTokenRepository.deleteById(userWithToken.token.id);
-    const user: UserEntity = await this.userRepository.findById(userWithToken.token.userId);
+    const user: UserEntity = await this.userRepository.findById(
+      userWithToken.token.userId,
+    );
     return {
       accessToken: this.generateToken(user, 'access'),
       refreshToken: await this.createRefreshToken(user, { expiresIn }),

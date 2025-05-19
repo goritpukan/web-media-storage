@@ -1,4 +1,11 @@
-import { Body, Controller, Post, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Res,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
@@ -42,7 +49,9 @@ export class AuthController {
     const tokens = await this.authService.refresh(user);
     CookieUtils.setResponseJwt(res, tokens, {
       accessTokenExpires: this.authService.getTokenExpTime(tokens.accessToken),
-      refreshTokenExpires: this.authService.getTokenExpTime(tokens.refreshToken),
+      refreshTokenExpires: this.authService.getTokenExpTime(
+        tokens.refreshToken,
+      ),
     });
   }
 }

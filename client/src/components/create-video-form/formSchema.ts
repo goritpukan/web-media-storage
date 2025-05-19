@@ -26,10 +26,10 @@ export const formSchema = z.object({
       if (typeof window === 'undefined') return true;
       return files instanceof FileList;
     }, 'Invalid file type')
-    .optional()
+    .refine((files) => files?.length, 'Preview is required')
     .refine(
       (files) => !files?.length || files.length < 2,
-      'You can download only 1 image',
+      'You can download only 1 preview',
     )
     .refine(
       (files) => !files?.length || acceptedImageTypes.includes(files[0]?.type),

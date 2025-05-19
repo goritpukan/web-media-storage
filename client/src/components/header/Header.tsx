@@ -1,14 +1,30 @@
-'use client'
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+'use client';
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Typography,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import Link from 'next/link';
 import { headerStyle, homeButtonStyle } from './Header.styles';
 import { Box } from '@mui/system';
-import { useContext } from 'react';
+import { useContext, useState, MouseEvent } from 'react';
 import { AuthenticationContext } from '@/lib/providers/AuthenticationProvider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Header() {
-  const { user } = useContext(AuthenticationContext);
+  const { user, isLoading } = useContext(AuthenticationContext);
+  const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
+
+  const handleClick = (event: MouseEvent<SVGSVGElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <AppBar sx={headerStyle} position="sticky">
       <Toolbar>
@@ -19,10 +35,31 @@ export default function Header() {
             </Typography>
           </Button>
         </Box>
-        {user !== undefined
-          ? <AccountCircleIcon color={'action'} sx={{fontSize: '50px', cursor: 'pointer'}}/>
-          : <Button variant={'contained'} component={Link} href={'/login'}>Login</Button>
-        }
+        {
+          !isLoading && (user !== null ? (
+          <AccountCircleIcon
+            color={'action'}
+            sx={{ fontSize: '50px', cursor: 'pointer' }}
+            onClick={handleClick}
+          />
+        ) : (
+          <Button variant={'contained'} component={Link} href={'/login'}>
+            Login
+          </Button>
+        ))}
+        <Menu onClose={handleClose} anchorEl={anchorEl} open={!!anchorEl}>
+          <MenuItem component={Link} href={'/create-video'} onClick={handleClose}>
+            <Typography>Add Video</Typography>
+          </MenuItem>
+          {user?.role === 'ADMIN' && (
+            <MenuItem onClick={handleClose}>
+              <Typography>Manage Users</Typography>
+            </MenuItem>
+          )}
+          <MenuItem onClick={handleClose}>
+            <Typography color={'error'}>Log Out</Typography>
+          </MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   );

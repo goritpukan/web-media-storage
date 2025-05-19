@@ -1,12 +1,13 @@
 import { SxProps, Theme } from '@mui/material/styles';
 
 export const GridStyles: SxProps<Theme> = {
-  alignContent: 'center',
-  width: '100%',
   position: 'relative',
+  margin: 'auto',
+  alignContent: 'center',
+  width: '90%',
   flexWrap: 'wrap',
   justifyContent: {
     xs: 'center',
-    md: 'start',
+    md: 'flex-start',
   },
 };

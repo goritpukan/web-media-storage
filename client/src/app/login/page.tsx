@@ -26,14 +26,13 @@ import { useContext } from 'react';
 import { IUser } from '@/types/user';
 
 export default function Page() {
-
   const { setUser } = useContext(AuthenticationContext);
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: (data: LoginData) => api.post('/auth/login', data),
     onSuccess: async (res) => {
       setUser(res.data as IUser);
-      router.push('/')
+      router.push('/');
     },
   });
   const {

@@ -23,7 +23,7 @@ export default async function Page({ params }: Props) {
     >
       <Grid>
         <VideoPlayer
-          url={'https://www.youtube.com/watch?v=5b17s5RiZGg&ab_channel=AmoR'}
+          url={video.videoUrl}
         />
       </Grid>
       <Grid>

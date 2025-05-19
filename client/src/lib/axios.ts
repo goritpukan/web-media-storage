@@ -5,26 +5,25 @@ const api = axios.create({
   withCredentials: true,
 });
 
-async function refreshToken(): Promise<boolean>{
-  return false;
-}
-
-
 api.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
-    if(error.response?.status === 401 && !originalRequest._rerty && !originalRequest.url.includes('/auth/refresh')) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._rerty &&
+      !originalRequest.url.includes('/auth/refresh')
+    ) {
       originalRequest._rerty = true;
-      try{
+      try {
         await api.post('/auth/refresh');
         return api(originalRequest);
-      }catch (refreshError) {
+      } catch (refreshError) {
         return Promise.reject(refreshError);
       }
       return Promise.reject(error);
     }
-  }
-)
+  },
+);
 
 export default api;
