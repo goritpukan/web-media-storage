@@ -35,24 +35,28 @@ export default function Header() {
             </Typography>
           </Button>
         </Box>
-        {
-          !isLoading && (user !== null ? (
-          <AccountCircleIcon
-            color={'action'}
-            sx={{ fontSize: '50px', cursor: 'pointer' }}
-            onClick={handleClick}
-          />
-        ) : (
-          <Button variant={'contained'} component={Link} href={'/login'}>
-            Login
-          </Button>
-        ))}
+        {!isLoading &&
+          (user !== null ? (
+            <AccountCircleIcon
+              color={'action'}
+              sx={{ fontSize: '50px', cursor: 'pointer' }}
+              onClick={handleClick}
+            />
+          ) : (
+            <Button variant={'contained'} component={Link} href={'/login'}>
+              Login
+            </Button>
+          ))}
         <Menu onClose={handleClose} anchorEl={anchorEl} open={!!anchorEl}>
-          <MenuItem component={Link} href={'/create-video'} onClick={handleClose}>
+          <MenuItem
+            component={Link}
+            href={'/create-video'}
+            onClick={handleClose}
+          >
             <Typography>Add Video</Typography>
           </MenuItem>
           {user?.role === 'ADMIN' && (
-            <MenuItem onClick={handleClose}>
+            <MenuItem component={Link} href={'/users'} onClick={handleClose}>
               <Typography>Manage Users</Typography>
             </MenuItem>
           )}

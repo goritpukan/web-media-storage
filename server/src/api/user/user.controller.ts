@@ -25,6 +25,7 @@ import {
 } from '@nestjs/swagger';
 import { AdminOrMeGuard } from '../../security/jwt/roles/admin-or-me.guard';
 import { GetUser } from '../../decorators/get-user.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -76,7 +77,7 @@ export class UserController {
   @Patch('/:id')
   @UseInterceptors(MapInterceptor(UserEntity, UserDto))
   async updateUserById(
-    @Body() body: CreateUserDto,
+    @Body() body: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<UserDto> {
     return this.userService.updateUserById(id, body);

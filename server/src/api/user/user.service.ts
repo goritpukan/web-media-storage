@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,7 @@ export class UserService {
     return this.userRepository.findMany();
   }
 
-  async updateUserById(id: string, data: CreateUserDto): Promise<UserEntity> {
+  async updateUserById(id: string, data: UpdateUserDto): Promise<UserEntity> {
     return this.userRepository.updateById(id, data);
   }
 

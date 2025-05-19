@@ -22,9 +22,7 @@ export default async function Page({ params }: Props) {
       gap={4}
     >
       <Grid>
-        <VideoPlayer
-          url={video.videoUrl}
-        />
+        <VideoPlayer url={video.videoUrl} />
       </Grid>
       <Grid>
         <Typography variant={'h4'}>{video.name}</Typography>

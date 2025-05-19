@@ -30,6 +30,7 @@ import { IVideoPreview } from '@/types/video';
 export default function CreateVideoForm() {
   const [videoFileInfo, setVideoFileInfo] = useState<File | null>(null);
   const [previewFileInfo, setPreviewFileInfo] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -75,13 +76,19 @@ export default function CreateVideoForm() {
       formData.append('preview', data.preview[0]);
     }
 
-    const res = await api.post<IVideoPreview>(`${process.env.NEXT_PUBLIC_API_URL}/video/`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    setIsLoading(true);
+    const res = await api.post<IVideoPreview>(
+      `${process.env.NEXT_PUBLIC_API_URL}/video/`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
-    });
-    const resData: IVideoPreview = res.data
-    if(res.status === 201){
+    );
+    setIsLoading(false);
+    const resData: IVideoPreview = res.data;
+    if (res.status === 201) {
       router.push(`/video/${resData.id}`);
     }
   };
@@ -165,7 +172,7 @@ export default function CreateVideoForm() {
             variant={'contained'}
             type={'submit'}
             sx={buttonStyles}
-            disabled={Object.values(errors).length > 0}
+            disabled={Object.values(errors).length > 0 || isLoading}
           >
             Upload
           </Button>

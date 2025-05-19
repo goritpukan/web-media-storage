@@ -22,12 +22,18 @@ import api from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { AuthenticationContext } from '@/lib/providers/AuthenticationProvider';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { IUser } from '@/types/user';
+import Loader from '@/components/loader/Loader';
 
 export default function Page() {
-  const { setUser } = useContext(AuthenticationContext);
+  const { user, setUser, isLoading } = useContext(AuthenticationContext);
   const router = useRouter();
+  useEffect(() => {
+    if(!isLoading && user){
+        router.push('/');
+    }
+  }, [user, isLoading]);
   const mutation = useMutation({
     mutationFn: (data: LoginData) => api.post('/auth/login', data),
     onSuccess: async (res) => {
@@ -46,6 +52,9 @@ export default function Page() {
     mutation.mutate(data);
   };
 
+  if(isLoading && !user){
+    return (<Loader/>)
+  }
   return (
     <Box sx={loginPageStyle}>
       <Box

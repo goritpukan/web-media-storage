@@ -19,13 +19,13 @@ export const AuthenticationContext = createContext<IAuthContext>({
 
 const AuthenticationProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUserState] = useState<IUser | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const getUser = async (): Promise<void> => {
     const response = await api.get<IUser>('user/get/me');
     if (response?.status === 200) {
       setUserState(response.data);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
   useEffect(() => {
     getUser();
