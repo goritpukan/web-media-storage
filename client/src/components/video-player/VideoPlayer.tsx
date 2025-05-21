@@ -11,8 +11,14 @@ interface Props {
 }
 export default function VideoPlayer({ url }: Props) {
   return (
-    <Box position={'relative'}>
-      <ReactPlayer controls url={url} />
+    <Box sx={{ width: '100%', height: 'auto' }}>
+      <ReactPlayer
+        url={url}
+        width="100%"
+        height="100%"
+        controls
+        style={{ aspectRatio: '16/9' }}
+      />
     </Box>
   );
 }

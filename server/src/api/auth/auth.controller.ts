@@ -54,4 +54,14 @@ export class AuthController {
       ),
     });
   }
+
+  @UseGuards(RefreshGuard)
+  @Post('/logout')
+  async logout (
+    @Res({ passthrough: true }) res: Response,
+    @GetUser() user: UserWithRefreshToken,
+  ) {
+    await this.authService.logout(user);
+    CookieUtils.clearResponseCookie(res, ['access', 'refresh']);
+  }
 }

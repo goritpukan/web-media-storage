@@ -30,8 +30,8 @@ export default function Page() {
   const { user, setUser, isLoading } = useContext(AuthenticationContext);
   const router = useRouter();
   useEffect(() => {
-    if(!isLoading && user){
-        router.push('/');
+    if (!isLoading && user) {
+      router.push('/');
     }
   }, [user, isLoading]);
   const mutation = useMutation({
@@ -52,8 +52,8 @@ export default function Page() {
     mutation.mutate(data);
   };
 
-  if(isLoading && !user){
-    return (<Loader/>)
+  if (isLoading && !user) {
+    return <Loader />;
   }
   return (
     <Box sx={loginPageStyle}>

@@ -48,4 +48,14 @@ export class CookieUtils {
       expires: new Date(refreshTokenExpires),
     });
   }
+  static clearResponseCookie (
+    res: Response,
+    cookieNames: ('access' | 'refresh')[]
+  ) {
+    for (const cookieName of cookieNames) {
+      CookieUtils.setResponseCookie(res, cookieName, '', {
+        expires: new Date(0),
+      });
+    }
+  }
 }

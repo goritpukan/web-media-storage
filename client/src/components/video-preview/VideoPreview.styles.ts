@@ -6,7 +6,8 @@ export const gridStyles: SxProps<Theme> = {
   alignItems: 'center',
   textDecoration: 'none',
   width: {
-    xs: '500px',
+    xs: '90vw',
+    sm: '300px',
     md: '300px',
   },
   position: 'relative',

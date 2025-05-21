@@ -15,6 +15,7 @@ export const AuthenticationContext = createContext<IAuthContext>({
   user: null,
   isLoading: true,
   setUser: () => {},
+  logout: () => {},
 });
 
 const AuthenticationProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -35,12 +36,16 @@ const AuthenticationProvider: FC<PropsWithChildren> = ({ children }) => {
       setUserState(user);
     }
   };
+  const logout = () => {
+    setUserState(null);
+  };
   return (
     <AuthenticationContext.Provider
       value={{
         user: user,
         isLoading: isLoading,
         setUser: setUser,
+        logout: logout,
       }}
     >
       {children}

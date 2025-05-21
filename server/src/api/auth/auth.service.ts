@@ -10,6 +10,7 @@ import { UserRepository } from '../../database/repositories/user.repository';
 import { RefreshTokenRepository } from '../../database/repositories/refresh-token.repository';
 import { UserWithRefreshToken } from '../../security/jwt/refresh/refresh.strategy';
 import { UserEntity } from '../user/entities/user.entity';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class AuthService {
@@ -83,5 +84,25 @@ export class AuthService {
       accessToken: this.generateToken(user, 'access'),
       refreshToken: await this.createRefreshToken(user, { expiresIn }),
     };
+  }
+
+  async logout (user: UserWithRefreshToken) {
+    await this.refreshTokenRepository.deleteById(user.token.id);
+  }
+
+  @Cron('0 2 * * *')
+  private async clearExpiredTokens (userId?: string) {
+    const tokens = await this.refreshTokenRepository.findMany({
+      where: {
+        userId,
+      },
+    });
+    const now = Date.now();
+
+    for (const { id, token } of tokens) {
+      if (this.getTokenExpTime(token) <= now) {
+        await this.refreshTokenRepository.deleteById(id);
+      }
+    }
   }
 }

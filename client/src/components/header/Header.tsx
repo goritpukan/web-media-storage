@@ -13,9 +13,10 @@ import { Box } from '@mui/system';
 import { useContext, useState, MouseEvent } from 'react';
 import { AuthenticationContext } from '@/lib/providers/AuthenticationProvider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import api from '@/lib/axios';
 
 export default function Header() {
-  const { user, isLoading } = useContext(AuthenticationContext);
+  const { user, isLoading, logout } = useContext(AuthenticationContext);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
 
   const handleClick = (event: MouseEvent<SVGSVGElement>) => {
@@ -24,6 +25,18 @@ export default function Header() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const res = await api.post('auth/logout');
+      if (res.status === 201) {
+        logout();
+        handleClose();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <AppBar sx={headerStyle} position="sticky">
@@ -60,7 +73,7 @@ export default function Header() {
               <Typography>Manage Users</Typography>
             </MenuItem>
           )}
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleLogout}>
             <Typography color={'error'}>Log Out</Typography>
           </MenuItem>
         </Menu>

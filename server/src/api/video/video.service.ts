@@ -83,6 +83,11 @@ export class VideoService {
   }
 
   async deleteVideoById(id: string): Promise<VideoEntity> {
+    const video: VideoEntity = await this.videoRepository.findById(id);
+    await Promise.all([
+      await this.uploadService.deleteFileByKey(video.videoKey),
+      await this.uploadService.deleteFileByKey(video.previewKey),
+    ])
     return this.videoRepository.deleteById(id);
   }
 
