@@ -26,14 +26,16 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new PrismaExceptionFilter());
 
-  const config = new DocumentBuilder()
-    .setTitle('Web Storage Api')
-    .setDescription('Web storage API swagger documentation')
-    .setVersion('1.0')
-    .build();
+  if(configService.get<string>('NODE_ENV') !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('Web Storage Api')
+      .setDescription('Web storage API swagger documentation')
+      .setVersion('1.0')
+      .build();
 
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/swagger', app, documentFactory);
+    const documentFactory = () => SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/swagger', app, documentFactory);
+  }
 
   await app.listen(port);
 }

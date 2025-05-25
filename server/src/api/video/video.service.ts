@@ -12,7 +12,6 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 
-
 @Injectable()
 export class VideoService {
   constructor(
@@ -27,7 +26,10 @@ export class VideoService {
     files: UploadFiles,
     user: UserEntity,
   ) {
-    const duration: number = await this.getVideoDuration(files.video[0].buffer, files.video[0].originalname);
+    const duration: number = await this.getVideoDuration(
+      files.video[0].buffer,
+      files.video[0].originalname,
+    );
     let previewKey: string | null = null;
     let videoKey: string | null = null;
     try {
@@ -87,7 +89,7 @@ export class VideoService {
     await Promise.all([
       await this.uploadService.deleteFileByKey(video.videoKey),
       await this.uploadService.deleteFileByKey(video.previewKey),
-    ])
+    ]);
     return this.videoRepository.deleteById(id);
   }
 
@@ -98,8 +100,14 @@ export class VideoService {
     return this.videoRepository.updateById(id, data);
   }
 
-  private async getVideoDuration(buffer: Buffer, originalName: string): Promise<number> {
-    const tempFilePath = path.join(os.tmpdir(), `${Date.now()}-${originalName}`);
+  private async getVideoDuration(
+    buffer: Buffer,
+    originalName: string,
+  ): Promise<number> {
+    const tempFilePath = path.join(
+      os.tmpdir(),
+      `${Date.now()}-${originalName}`,
+    );
     await fs.writeFile(tempFilePath, buffer);
 
     const duration = await new Promise<number>((resolve, reject) => {

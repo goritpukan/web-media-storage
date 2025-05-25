@@ -57,7 +57,7 @@ export class AuthController {
 
   @UseGuards(RefreshGuard)
   @Post('/logout')
-  async logout (
+  async logout(
     @Res({ passthrough: true }) res: Response,
     @GetUser() user: UserWithRefreshToken,
   ) {

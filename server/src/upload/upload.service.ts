@@ -22,7 +22,6 @@ export class UploadService {
 
     this.client = new S3Client({
       region: s3Region,
-      endpoint: this.configService.get<string>('S3_ENDPOINT'),
       credentials: {
         accessKeyId: this.configService.get<string>('S3_ACCESS_KEY'),
         secretAccessKey: this.configService.get<string>('S3_SECRET_ACCESS_KEY'),
@@ -39,7 +38,6 @@ export class UploadService {
         Key: key,
         Body: file.buffer,
         ContentType: file.mimetype || 'video/mp4',
-        ACL: 'public-read',
       });
       await this.client.send(command);
       return key;
@@ -64,9 +62,6 @@ export class UploadService {
   }
 
   getPublicUrl(key: string): string {
-    const bucketUrl = this.configService
-      .get<string>('S3_STORAGE_URL')
-      .replace('s3', 'object');
-    return `${bucketUrl}/${this.bucketName}/${key}`;
+    return `https://${this.bucketName}.s3.amazonaws.com/${key}`;
   }
 }

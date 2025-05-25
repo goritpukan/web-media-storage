@@ -86,12 +86,12 @@ export class AuthService {
     };
   }
 
-  async logout (user: UserWithRefreshToken) {
+  async logout(user: UserWithRefreshToken) {
     await this.refreshTokenRepository.deleteById(user.token.id);
   }
 
   @Cron('0 2 * * *')
-  private async clearExpiredTokens (userId?: string) {
+  private async clearExpiredTokens(userId?: string) {
     const tokens = await this.refreshTokenRepository.findMany({
       where: {
         userId,
