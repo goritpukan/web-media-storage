@@ -13,5 +13,9 @@ export default async function Home() {
     redirect('/error');
   }
   const videos: IVideoPreview[] = await res?.json();
+  if (Array.isArray(videos) && videos.length === 0) {
+    redirect('/error');
+  }
+
   return <VideosList videos={videos} />;
 }
