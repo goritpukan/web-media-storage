@@ -2,12 +2,9 @@ version: '3.8'
 
 services:
   client:
+    image: vadymc/web-media-storage:latest
     env_file:
       - './client/.env'
-    build:
-      context: ./client
-      args:
-        IMAGE_URL: ${IMAGE_URL}
     restart: always
     expose:
       - 3000
@@ -15,10 +12,9 @@ services:
       - NODE_ENV=production
 
   server:
+    image: vadymc/web-media-storage-server:latest
     env_file:
       - './server/.env'
-    build:
-      context: ./server
     restart: always
     expose:
       - 4000
