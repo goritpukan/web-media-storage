@@ -9,6 +9,13 @@ COPY ./package.json ./package-lock.json ./
 RUN npm i
 
 COPY . .
+
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+ARG IMAGE_URL
+ENV IMAGE_URL=$IMAGE_URL
+
 RUN npm run build
 
 FROM node:18-alpine AS runner
