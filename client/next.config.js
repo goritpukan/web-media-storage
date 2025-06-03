@@ -9,7 +9,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: imageUrl,
+        hostname: 'media-storage-kpi.s3.amazonaws.com',
+        pathname: '**',
       },
     ],
   },
