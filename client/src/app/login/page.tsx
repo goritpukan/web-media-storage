@@ -22,12 +22,13 @@ import api from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { AuthenticationContext } from '@/lib/providers/AuthenticationProvider';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IUser } from '@/types/user';
 import Loader from '@/components/loader/Loader';
 
 export default function Page() {
   const { user, setUser, isLoading } = useContext(AuthenticationContext);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   useEffect(() => {
     if (!isLoading && user) {
@@ -35,11 +36,16 @@ export default function Page() {
     }
   }, [user, isLoading]);
   const mutation = useMutation({
-    mutationFn: (data: LoginData) => api.post('/auth/login', data),
+    mutationFn: async (data: LoginData) => await api.post('/auth/login', data),
     onSuccess: async (res) => {
       setUser(res.data as IUser);
       router.push('/');
     },
+    onError: async (error: AxiosError) => {
+      setError(
+        JSON.parse(error.request.response)?.message || 'Request failed.',
+      );
+    }
   });
   const {
     register,
@@ -93,8 +99,7 @@ export default function Page() {
             <Zoom in={mutation.isError}>
               <Alert variant="filled" severity="error">
                 <AlertTitle>Error</AlertTitle>
-                {mutation.error instanceof AxiosError &&
-                  mutation.error?.response?.data?.message}
+                {error}
               </Alert>
             </Zoom>
           </Box>

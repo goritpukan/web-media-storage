@@ -1,4 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+} from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -25,7 +28,7 @@ export class AuthService {
   async login(data: LoginDto) {
     const user: User = await this.userService.getUser({ email: data.email });
     if (!user || !(await bcrypt.compare(data.password, user.password))) {
-      throw new UnauthorizedException('Password or email is incorrect');
+      throw new BadRequestException('Password or email is incorrect');
     }
     return {
       accessToken: this.generateToken(user, 'access'),
