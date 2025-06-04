@@ -3,6 +3,7 @@ version: '3.8'
 services:
   client:
     image: vadymc/web-media-storage:latest
+    platform: linux/amd64
     env_file:
       - './client/.env'
     restart: always
@@ -10,9 +11,11 @@ services:
       - 3000
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://13.51.204.170/api/
 
   server:
     image: vadymc/web-media-storage-server:latest
+    platform: linux/amd64
     env_file:
       - './server/.env'
     restart: always
