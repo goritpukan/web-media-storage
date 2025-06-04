@@ -45,7 +45,7 @@ export default function Page() {
       setError(
         JSON.parse(error.request.response)?.message || 'Request failed.',
       );
-    }
+    },
   });
   const {
     register,

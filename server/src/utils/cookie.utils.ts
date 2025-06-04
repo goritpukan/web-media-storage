@@ -18,7 +18,7 @@ export class CookieUtils {
   ) {
     res.cookie(`${tokenName}_token`, token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       ...options,
     });
   }

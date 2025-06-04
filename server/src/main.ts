@@ -26,7 +26,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new PrismaExceptionFilter());
 
-  if(configService.get<string>('NODE_ENV') !== 'production') {
+  if (configService.get<string>('NODE_ENV') !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('Web Storage Api')
       .setDescription('Web storage API swagger documentation')
